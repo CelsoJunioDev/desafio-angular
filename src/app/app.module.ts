@@ -3,10 +3,12 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { ViaCepComponent } from './via-cep/via-cep.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    ViaCepComponent
   ],
   imports: [
     BrowserModule,
