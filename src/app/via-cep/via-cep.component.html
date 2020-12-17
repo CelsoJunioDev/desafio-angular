@@ -1,1 +1,11 @@
-<p>via-cep works!</p>
+
+<form class="example-form" [formGroup]="form">
+  <mat-form-field class="example-full-width">
+    <mat-label>Insira o CEP para adiconar</mat-label>
+    <input matInput placeholder="Ex. 72871-064" formControlName="cep">
+  </mat-form-field>
+
+  <button id="basic" type="button" mat-button (click)="adicionarCep()">
+    Adicionar
+  </button>
+</form>

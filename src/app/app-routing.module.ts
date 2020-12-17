@@ -1,12 +1,19 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { ViaCepComponent } from './via-cep/via-cep.component';
 
 const routes: Routes = [
   {
-    path: 'via-cep',
-    component: ViaCepComponent
+    path: 'viacep',
+    loadChildren: () => import('./via-cep/via-cep.module').then(m => m.ViaCepModule)
 
+  },
+  {
+    path: 'pagetwo',
+    loadChildren: () => import('./page-two/page-two.module').then(m => m.PageTwoModule)
+
+  },
+  {
+    path: '', pathMatch: 'full', redirectTo: '/viacep'
   }
 ];
 
