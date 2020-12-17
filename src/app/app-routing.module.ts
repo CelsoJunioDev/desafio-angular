@@ -8,11 +8,6 @@ const routes: Routes = [
 
   },
   {
-    path: 'pagetwo',
-    loadChildren: () => import('./page-two/page-two.module').then(m => m.PageTwoModule)
-
-  },
-  {
     path: '', pathMatch: 'full', redirectTo: '/viacep'
   }
 ];
