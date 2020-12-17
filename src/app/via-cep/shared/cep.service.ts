@@ -1,6 +1,5 @@
 import {HttpClient} from '@angular/common/http'
-import { Inject, Injectable } from '@angular/core';
-import { Cep } from './cep.model';
+import { Injectable } from '@angular/core';
 
 @Injectable({providedIn: 'root'})
 export class CepService{
