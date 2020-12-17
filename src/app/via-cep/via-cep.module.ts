@@ -8,6 +8,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import {MatTableModule} from '@angular/material/table';
 import {MatIconModule} from '@angular/material/icon';
+import { TextMaskModule } from 'angular2-text-mask';
 
 
 
@@ -20,7 +21,9 @@ import {MatIconModule} from '@angular/material/icon';
     MatInputModule,
     ReactiveFormsModule,
     MatTableModule,
-    MatIconModule
+    MatIconModule,
+    TextMaskModule
+
   ]
 })
 export class ViaCepModule { }

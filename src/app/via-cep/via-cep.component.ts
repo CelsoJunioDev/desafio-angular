@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { CepModel } from './shared/cep.model';
 import { CepService } from './shared/cep.service';
@@ -39,7 +39,7 @@ export class ViaCepComponent implements OnInit {
 
   setForm(){
     this.form = new FormGroup({
-      cep: new FormControl(''),
+      cep: new FormControl('', Validators.required),
       cepFiltro: new FormControl(''),
       ufFiltro: new FormControl(''),
       cidadeFiltro: new FormControl('')
@@ -53,11 +53,10 @@ export class ViaCepComponent implements OnInit {
 
   adicionarCep() {
 
-    if(this.form.get('cep')?.value === '' || this.form.get('cep')?.value.length < 8 ){
+    if(this.form.invalid|| this.form.get('cep')?.value.length < 5 ){
       alert('Digite um CEP válido')
     }else{
-
-      this.consultarCep(this.form.get('cep')?.value);
+      this.consultarCep(this.removerMascaraDoCep());
       console.log(this.listaCep);
       this.form.get('cep')?.setValue('')
     }
@@ -65,6 +64,8 @@ export class ViaCepComponent implements OnInit {
 
 
   }
+
+ mask = [/\d/, /\d/, '.', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/]
 
   consultarCep(cep: string){
     this.cepService.getCep(cep).subscribe(
@@ -80,6 +81,10 @@ export class ViaCepComponent implements OnInit {
 
       }
     );
+  }
+
+  removerMascaraDoCep(): string{
+    return this.form.get('cep')?.value.replace('.','').replace('/', '');
   }
 
   removerCep(index: number){
