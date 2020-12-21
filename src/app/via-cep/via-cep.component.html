@@ -17,6 +17,7 @@
     >
       Adicionar
     </button>
+
   </form>
 </div>
 
@@ -102,4 +103,14 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
   </table>
+
+</div>
+<div *ngIf="contemData()" id="deleteAll">
+  <button
+      mat-stroked-button
+      (click)="excluirTodos()"
+      aria-label="Excluir Tudo"
+    >
+      Excluir todos
+    </button>
 </div>

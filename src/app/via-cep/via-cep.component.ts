@@ -83,6 +83,16 @@ export class ViaCepComponent implements OnInit {
     );
   }
 
+  contemData(){
+    return this.listaCep.data.length
+  }
+
+  excluirTodos(){
+    alert('teste')
+   this.listaCep = new MatTableDataSource()
+
+  }
+
   removerMascaraDoCep(): string {
     return this.form.get('cep')?.value.replace('.', '').replace('/', '');
   }

@@ -48,3 +48,12 @@ table {
     margin-left: 10px;
   }
 }
+#deleteAll{
+  display: flex;
+  align-content: center;
+  justify-content: center;
+
+  button{
+    color:rgb(255, 60, 0);
+  }
+}
