@@ -17,7 +17,6 @@
     >
       Adicionar
     </button>
-
   </form>
 </div>
 
@@ -38,10 +37,10 @@
       <mat-form-field class="example-full-width">
         <mat-label>UF:</mat-label>
         <input
-        matInput
-        placeholder="Ex. GO"
-        formControlName="ufFiltro"
-        oninput="this.value = this.value.toUpperCase()"
+          matInput
+          placeholder="Ex. GO"
+          formControlName="ufFiltro"
+          oninput="this.value = this.value.toUpperCase()"
         />
       </mat-form-field>
       <br />
@@ -62,9 +61,8 @@
       <button id="basic" type="button" mat-button (click)="pesquisarCep()">
         Pesquisar
       </button>
-      <button mat-button class="refresh" (click)="refresh()">
-        Limpar filtros
-      </button>
+      <button mat-button (click)="refresh()">Limpar filtros</button>
+      <button mat-button (click)="refresh()">Refresh</button>
     </form>
   </div>
 </div>
@@ -103,14 +101,9 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
   </table>
-
 </div>
 <div *ngIf="contemData()" id="deleteAll">
-  <button
-      mat-stroked-button
-      (click)="excluirTodos()"
-      aria-label="Excluir Tudo"
-    >
-      Excluir todos
-    </button>
+  <button mat-stroked-button (click)="excluirTodos()" aria-label="Excluir Tudo">
+    Excluir todos
+  </button>
 </div>

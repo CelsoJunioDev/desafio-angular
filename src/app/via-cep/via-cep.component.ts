@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
-import { CepModel } from './shared/cep.model';
 import { CepService } from './shared/cep.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { element } from 'protractor';
 
 @Component({
   selector: 'app-via-cep',
@@ -13,6 +11,13 @@ import { element } from 'protractor';
 })
 export class ViaCepComponent implements OnInit {
   constructor(private cepService: CepService, private _snackBar: MatSnackBar) {}
+
+  ngOnInit(): void {
+    this.setForm();
+  }
+
+  mask = [/\d/, /\d/, '.', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/];
+  maskFilter = [/\d/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/];
 
   ELEMENT_DATA: any[] = [];
 
@@ -39,24 +44,25 @@ export class ViaCepComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
-    //useEffect
-    this.setForm();
-  }
   openSnackBar(text: string) {
     this._snackBar.open(text, '', {
       duration: 2000,
     });
   }
+
   adicionarCep() {
     const element = this.listaLocalStorage.find(
       (element) => element.cep === this.form.get('cep')?.value.replace('.', '')
     );
-
-    if (
+    if (element) {
+      this.openSnackBar('Este CEP já foi adicionado');
+    } else if (
       this.form.invalid ||
-      this.form.get('cep')?.value.length < 5 ||
-      element
+      this.form
+        .get('cep')
+        ?.value.replace('.', '')
+        .replace('_', '')
+        .replace('-', '').length < 8
     ) {
       this.openSnackBar('Insira um CEP válido');
     } else {
@@ -65,17 +71,12 @@ export class ViaCepComponent implements OnInit {
     }
   }
 
-  mask = [/\d/, /\d/, '.', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/];
-  maskFilter = [/\d/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/];
-
   consultarCep(cep: string) {
     this.cepService.getCep(cep).subscribe(
       (res: any) => {
         if (res.erro) {
-          this.openSnackBar('CEP não existe');
+          this.openSnackBar('CEP não encontrado');
         } else {
-          console.log('RESPONSE: ', res);
-
           this.ELEMENT_DATA.push(res);
           this.listaLocalStorage.push(res);
           localStorage.setItem(
@@ -90,6 +91,9 @@ export class ViaCepComponent implements OnInit {
       }
     );
   }
+  removerMascaraDoCep(): string {
+    return this.form.get('cep')?.value.replace('.', '').replace('/', '');
+  }
 
   contemData() {
     return this.listaCep.data.length;
@@ -97,10 +101,6 @@ export class ViaCepComponent implements OnInit {
 
   excluirTodos() {
     this.listaCep = new MatTableDataSource();
-  }
-
-  removerMascaraDoCep(): string {
-    return this.form.get('cep')?.value.replace('.', '').replace('/', '');
   }
 
   removerCep(index: number) {
@@ -112,7 +112,7 @@ export class ViaCepComponent implements OnInit {
     const cep = this.form.get('cepFiltro')?.value;
     const uf = this.form.get('ufFiltro')?.value;
     const cidade = this.form.get('cidadeFiltro')?.value;
-    const listaFiltrada = this.ELEMENT_DATA.filter((element) => {
+    const listaFiltrada = this.listaLocalStorage.filter((element) => {
       if (
         element.cep === cep ||
         element.uf === uf ||
