@@ -43,8 +43,8 @@ export class ViaCepComponent implements OnInit {
     //useEffect
     this.setForm();
   }
-  openSnackBar() {
-    this._snackBar.open('Por favor, insira um CEP válido', '', {
+  openSnackBar(text: string) {
+    this._snackBar.open(text, '', {
       duration: 2000,
     });
   }
@@ -58,10 +58,9 @@ export class ViaCepComponent implements OnInit {
       this.form.get('cep')?.value.length < 5 ||
       element
     ) {
-      this.openSnackBar();
+      this.openSnackBar('Insira um CEP válido');
     } else {
       this.consultarCep(this.removerMascaraDoCep());
-      console.log(this.listaCep);
       this.form.get('cep')?.setValue('');
     }
   }
@@ -71,26 +70,33 @@ export class ViaCepComponent implements OnInit {
 
   consultarCep(cep: string) {
     this.cepService.getCep(cep).subscribe(
-      (res) => {
-        this.ELEMENT_DATA.push(res);
-        this.listaLocalStorage.push(res);
-        localStorage.setItem('storage', JSON.stringify(this.listaLocalStorage));
-        this.listaCep = new MatTableDataSource(this.ELEMENT_DATA);
+      (res: any) => {
+        if (res.erro) {
+          this.openSnackBar('CEP não existe');
+        } else {
+          console.log('RESPONSE: ', res);
+
+          this.ELEMENT_DATA.push(res);
+          this.listaLocalStorage.push(res);
+          localStorage.setItem(
+            'storage',
+            JSON.stringify(this.listaLocalStorage)
+          );
+          this.listaCep = new MatTableDataSource(this.ELEMENT_DATA);
+        }
       },
       (error) => {
-        console.log(error);
+        console.log('error: ', error);
       }
     );
   }
 
-  contemData(){
-    return this.listaCep.data.length
-
+  contemData() {
+    return this.listaCep.data.length;
   }
 
-  excluirTodos(){
-   this.listaCep = new MatTableDataSource()
-
+  excluirTodos() {
+    this.listaCep = new MatTableDataSource();
   }
 
   removerMascaraDoCep(): string {
