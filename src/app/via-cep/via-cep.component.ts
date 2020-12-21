@@ -49,7 +49,7 @@ export class ViaCepComponent implements OnInit {
     });
   }
   adicionarCep() {
-    const element = this.ELEMENT_DATA.find(
+    const element = this.listaLocalStorage.find(
       (element) => element.cep === this.form.get('cep')?.value.replace('.', '')
     );
 
@@ -85,10 +85,10 @@ export class ViaCepComponent implements OnInit {
 
   contemData(){
     return this.listaCep.data.length
+
   }
 
   excluirTodos(){
-    alert('teste')
    this.listaCep = new MatTableDataSource()
 
   }
@@ -120,6 +120,8 @@ export class ViaCepComponent implements OnInit {
 
   refresh() {
     this.listaCep = new MatTableDataSource(this.listaLocalStorage);
-    //  this.listaLocalStorage = [];
+    this.form.get('cepFiltro')?.setValue('');
+    this.form.get('ufFiltro')?.setValue('');
+    this.form.get('cidadeFiltro')?.setValue('');
   }
 }
