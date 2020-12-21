@@ -36,15 +36,21 @@
       <br />
       <mat-form-field class="example-full-width">
         <mat-label>UF:</mat-label>
-        <input matInput placeholder="Ex. GO" formControlName="ufFiltro" />
+        <input
+        matInput
+        placeholder="Ex. GO"
+        formControlName="ufFiltro"
+        oninput="this.value = this.value.toUpperCase()"
+        />
       </mat-form-field>
       <br />
       <mat-form-field class="example-full-width">
         <mat-label>Cidade:</mat-label>
         <input
           matInput
-          placeholder="Ex. Brasilia72"
+          placeholder="Ex. Brasilia"
           formControlName="cidadeFiltro"
+          oninput="this.value = this.value.toLowerCase().replace(/(?:^|\s)\S/g, function(a) { return a.toUpperCase(); })"
         />
       </mat-form-field>
     </form>
