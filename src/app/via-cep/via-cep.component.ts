@@ -4,6 +4,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { CepModel } from './shared/cep.model';
 import { CepService } from './shared/cep.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { element } from 'protractor';
 
 @Component({
   selector: 'app-via-cep',
@@ -11,9 +12,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./via-cep.component.scss'],
 })
 export class ViaCepComponent implements OnInit {
-
   constructor(private cepService: CepService, private _snackBar: MatSnackBar) {}
-
 
   ELEMENT_DATA: any[] = [];
 
@@ -29,10 +28,7 @@ export class ViaCepComponent implements OnInit {
     'acao',
   ];
 
-
-
   form: FormGroup = new FormGroup({});
-
 
   setForm() {
     this.form = new FormGroup({
@@ -53,8 +49,16 @@ export class ViaCepComponent implements OnInit {
     });
   }
   adicionarCep() {
-    if (this.form.invalid || this.form.get('cep')?.value.length < 5) {
-      this.openSnackBar()
+    const element = this.ELEMENT_DATA.find(
+      (element) => element.cep === this.form.get('cep')?.value.replace('.', '')
+    );
+
+    if (
+      this.form.invalid ||
+      this.form.get('cep')?.value.length < 5 ||
+      element
+    ) {
+      this.openSnackBar();
     } else {
       this.consultarCep(this.removerMascaraDoCep());
       console.log(this.listaCep);
